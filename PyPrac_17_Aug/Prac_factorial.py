@@ -9,7 +9,6 @@ elif n==1:
 elif n>=2:
     for i in range(1,n):
         n = n*i
-        i-=i
     print (f"The factorial of number is: {n}")
 else:
     print("You have provided invalid input")
