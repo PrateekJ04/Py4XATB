@@ -3,6 +3,7 @@ import time
 import pytest
 import allure
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 # from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from faker import Faker
@@ -48,10 +49,12 @@ def test_validate_registration():
 @allure.title("Error message validation in VWO log in page ")
 @allure.description("Verify if proper error message is displayed in Vwo login page when entered invalid creds")
 def test_vwo_login_with_invalid_creds():
-    # optns = Options()
-    driver = webdriver.Chrome()
-    # optns.add_argument('--start-maximized')
-    # optns.add_argument("--disable-extensions")
+    choptions = Options()
+    choptions.add_experimental_option("excludeSwitches", ["enable-automation"])
+    choptions.add_experimental_option("useAutomationExtension", "False")
+    choptions.add_argument("--disable-blink-features=AutomationControlled")
+    driver = webdriver.Chrome(options=choptions)
+
     driver.maximize_window()
     time.sleep(3)
     driver.get("https://app.vwo.com/")
@@ -66,3 +69,4 @@ def test_vwo_login_with_invalid_creds():
     alert_message = driver.find_element(By.ID, "js-notification-box-msg").text
     print(alert_message)
     assert alert_message.__eq__("Your email, password, IP address or location did not match")
+
